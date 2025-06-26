@@ -81,14 +81,14 @@ export const ContributionGrid: React.FC<ContributionGridProps> = ({ data }) => {
         <div className="inline-block min-w-full">
           {/* Month labels */}
           <div className="flex mb-2 text-xs text-gray-400 h-4">
-            <div className="w-8"></div> {/* Space for day labels */}
+            <div className="w-6 sm:w-8"></div> {/* Space for day labels */}
             <div className="flex-1 relative">
               {monthLabels.map((label, index) => (
                 <div 
                   key={index}
-                  className="absolute"
+                  className="absolute text-xs"
                   style={{ 
-                    left: `${label.weekIndex * 14}px`, // 12px cell + 2px gap = 14px per week
+                    left: `${label.weekIndex * (window.innerWidth < 640 ? 10 : 14)}px`, // Responsive spacing
                   }}
                 >
                   {label.month}
@@ -100,24 +100,33 @@ export const ContributionGrid: React.FC<ContributionGridProps> = ({ data }) => {
           {/* Grid with day labels */}
           <div className="flex">
             {/* Day labels - aligned with grid rows */}
-            <div className="flex flex-col text-xs text-gray-400 mr-2">
-              <div className="h-3 mb-1"></div> {/* Sunday - empty */}
-              <div className="h-3 mb-1 flex items-center">Mon</div>
-              <div className="h-3 mb-1"></div> {/* Tuesday - empty */}
-              <div className="h-3 mb-1 flex items-center">Wed</div>
-              <div className="h-3 mb-1"></div> {/* Thursday - empty */}
-              <div className="h-3 mb-1 flex items-center">Fri</div>
-              <div className="h-3"></div> {/* Saturday - empty */}
+            <div className="flex flex-col text-xs text-gray-400 mr-1 sm:mr-2">
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1"></div> {/* Sunday - empty */}
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1 flex items-center">
+                <span className="hidden sm:inline">Mon</span>
+                <span className="sm:hidden">M</span>
+              </div>
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1"></div> {/* Tuesday - empty */}
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1 flex items-center">
+                <span className="hidden sm:inline">Wed</span>
+                <span className="sm:hidden">W</span>
+              </div>
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1"></div> {/* Thursday - empty */}
+              <div className="h-2 mb-1 sm:h-3 sm:mb-1 flex items-center">
+                <span className="hidden sm:inline">Fri</span>
+                <span className="sm:hidden">F</span>
+              </div>
+              <div className="h-2 sm:h-3"></div> {/* Saturday - empty */}
             </div>
 
             {/* Contribution grid */}
-            <div className="flex gap-1">
+            <div className="flex gap-0.5 sm:gap-1">
               {gridData.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col gap-1">
+                <div key={weekIndex} className="flex flex-col gap-0.5 sm:gap-1">
                   {week.map((day, dayIndex) => (
                     <div
                       key={`${weekIndex}-${dayIndex}-${day.level}`} // Include level in key
-                      className={`w-3 h-3 rounded-sm border cursor-pointer transition-all duration-150 hover:scale-110 ${getCellColor(day.level, day.isToday)}`}
+                      className={`w-2 h-2 sm:w-3 sm:h-3 rounded-sm border cursor-pointer transition-all duration-150 hover:scale-110 ${getCellColor(day.level, day.isToday)}`}
                       onMouseEnter={(e) => handleCellHover(e, day.date, day.level)}
                       onMouseLeave={handleCellLeave}
                     />
@@ -132,13 +141,13 @@ export const ContributionGrid: React.FC<ContributionGridProps> = ({ data }) => {
       <Tooltip data={tooltip} />
       
       {/* Legend */}
-      <div className="flex items-center justify-between mt-4 text-sm text-gray-400">
+      <div className="flex items-center justify-between mt-4 text-xs sm:text-sm text-gray-400">
         <span>Less</span>
-        <div className="flex gap-1">
+        <div className="flex gap-0.5 sm:gap-1">
           {[0, 1, 2, 3, 4].map((level) => (
             <div
               key={level}
-              className={`w-3 h-3 rounded-sm border ${getCellColor(level, false)}`}
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-sm border ${getCellColor(level, false)}`}
             />
           ))}
         </div>
