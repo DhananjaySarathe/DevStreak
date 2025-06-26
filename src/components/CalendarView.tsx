@@ -63,7 +63,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ data }) => {
     // Empty cells for days before the first day of the month
     for (let i = 0; i < firstDay; i++) {
       days.push(
-        <div key={`empty-${i}`} className="h-12 w-12"></div>
+        <div key={`empty-${i}`} className="h-10 w-10 sm:h-12 sm:w-12"></div>
       );
     }
     
@@ -79,7 +79,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ data }) => {
       days.push(
         <div
           key={`${dateString}-${level}`} // Include level in key to force re-render
-          className={`h-12 w-12 rounded-lg border-2 flex items-center justify-center text-sm font-medium transition-all duration-200 ${
+          className={`h-10 w-10 sm:h-12 sm:w-12 rounded-lg border-2 flex items-center justify-center text-xs sm:text-sm font-medium transition-all duration-200 ${
             isFuture 
               ? 'bg-gray-900 border-gray-800 text-gray-600 cursor-not-allowed'
               : `${getCellColor(level, isToday)} text-white cursor-pointer hover:scale-105`
@@ -102,9 +102,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ data }) => {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
-    <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
+    <div className="bg-gray-800 rounded-lg p-4 sm:p-6 border border-gray-700">
       {/* Calendar Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <button
           onClick={() => navigateMonth('prev')}
           className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
@@ -112,7 +112,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ data }) => {
           <ChevronLeft size={20} className="text-gray-400" />
         </button>
         
-        <h2 className="text-xl font-semibold text-white">
+        <h2 className="text-lg sm:text-xl font-semibold text-white">
           {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
         </h2>
         
@@ -125,27 +125,28 @@ export const CalendarView: React.FC<CalendarViewProps> = ({ data }) => {
       </div>
 
       {/* Day Names */}
-      <div className="grid grid-cols-7 gap-2 mb-4">
+      <div className="grid grid-cols-7 gap-1 sm:gap-2 mb-2 sm:mb-4">
         {dayNames.map(day => (
-          <div key={day} className="text-center text-sm font-medium text-gray-400 py-2">
-            {day}
+          <div key={day} className="text-center text-xs sm:text-sm font-medium text-gray-400 py-2">
+            <span className="hidden sm:inline">{day}</span>
+            <span className="sm:hidden">{day.slice(0, 1)}</span>
           </div>
         ))}
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1 sm:gap-2">
         {renderCalendar()}
       </div>
 
       {/* Legend */}
-      <div className="flex items-center justify-between mt-6 text-sm text-gray-400">
+      <div className="flex items-center justify-between mt-4 sm:mt-6 text-xs sm:text-sm text-gray-400">
         <span>Less</span>
         <div className="flex gap-1">
           {[0, 1, 2, 3, 4].map((level) => (
             <div
               key={level}
-              className={`w-3 h-3 rounded-sm border ${getCellColor(level, false)}`}
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-sm border ${getCellColor(level, false)}`}
             />
           ))}
         </div>
